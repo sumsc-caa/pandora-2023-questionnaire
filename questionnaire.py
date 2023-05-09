@@ -1,16 +1,41 @@
-from flask import Flask, request, jsonify, render_template
+import json
+from database import Database
+from components import components
 
-app = Flask(__name__)
 
-@app.route("/submitQuestionnaire", methods=['POST'])
-def submitQuestionnaire():
-    data = request.get_json()
-    print(data)
-    return "success"
+class Questionnaire:
+    def __init__(self, qid: int, name: str, desc: str | None = None, queries_json: str = "[]"):
+        self.qid = qid
+        self.name = name
+        self.desc = desc or ""
+        self.queries = json.loads(queries_json)
+    
+    def __repr__(self) -> str:
+        return f"<Questionnaire with qid={self.qid} name={self.name}>"
+    
+    def render(self):
+        """渲染问卷"""
+        parts = []
+        for q in self.queries:
+            type = q["type"]
+            component = components.get(type, None)
+            if component is None:
+                component = components.get("FallBack")
+            parts.append(component.render(**q))
+        return ''.join(parts)
+    
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+    @classmethod
+    def get_questionnaire(cls, qid: int):
+        """获取问卷"""
+        with Database() as db:
+            cur = db.execute("SELECT * FROM questionnaire WHERE qid = ?", (qid,))
+            result = cur.fetchone()
+        if not result: # result为空（问卷不存在）
+            return None
+        else:
+            return cls(*result)
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    q = Questionnaire(1, "test", queries_json='[{"type":"InputBox", "name":"inputbox", "caption":"输入一些东西"}]')
+    print(q.render())

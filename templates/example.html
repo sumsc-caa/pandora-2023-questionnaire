@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block caption %}示例问卷{% endblock %}
+
+{% block title %}示例问卷{% endblock %}
+
+{% block contents %}
+<div class="col-1" style="background-color: aqua;"></div>
+<div class="col-10">
+  <form class="row" action="/submit/1" method="post">
+    <!-- name -->
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="name">1. Your name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+        <div id="inputHelp" class="form-text">We'll never share your information with anyone else.</div>
+      </div>
+    </div>
+    <!-- email -->
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="email">2. Your email</label>
+        <input type="text" class="form-control" id="email" name="email" required>
+      </div>
+    </div>
+    <!-- gender -->
+    <div class="row">
+      <div class="mb-3">
+        <div>
+          <label>3. Your gender</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="gender" id="manRadio" value="man">
+          <label class="form-check-label" for="man">
+            Male
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="gender" id="womamRadio" value="woman">
+          <label class="form-check-label" for="woman">
+            Female
+          </label>
+        </div>
+      </div>
+    </div>
+    <!-- food list -->
+    <div class="row">
+      <div class="mb-3">
+        <div><label>4. Your daily food at school(multiple choices)</label></div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="food" value="rice" id="rice" checked>
+          <label class="form-check-label" for="rice">
+            Rice
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="food" value="bread" id="bread">
+          <label class="form-check-label" for="bread">
+            Bread
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="food" value="salad" id="salad">
+          <label class="form-check-label" for="salad">
+            Salad
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="food" value="noodle" id="noodle">
+          <label class="form-check-label" for="noodle">
+            noodle
+          </label>
+        </div>
+      </div>
+    </div>
+    <!-- recipe textarea -->
+    <div class="row">
+      <div class="mb-3 col-md-6">
+        <label for="recipe" class="form-label">5. Anything else in your recipe</label>
+        <textarea class="form-control" rows="3" name="recipe" id="recipe"></textarea>
+      </div>
+    </div>
+    <!-- divider -->
+    <hr>
+    <!-- submit button and reset button -->
+    <div class="row">
+      <div class="col-md-1">
+        <input type="submit" class="btn btn-primary" value="Submit"/>
+      </div>
+      <div class="col-md-1">
+        <button type="button" class="btn btn-secondary" onclick="javascript:location.reload();">Reset</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="col-1"></div>
+{% endblock %}
