@@ -1,12 +1,14 @@
+from werkzeug.datastructures import ImmutableMultiDict
 from .BaseComponent import BaseComponent, Template, register_component
-from .BaseComponent import ImmutableMultiDict
 
 # 添加装饰器使程序能加载并注册这个组件
 
 
 @register_component
-class RadioSelect(BaseComponent):
-    """单选框"""
+class BoxSelect(BaseComponent):
+    """多选框
+    参考：https://getbootstrap.com/docs/5.2/forms/checks-radios/#checks
+    """
     # TODO: 完善组件
 
     template = Template("")
@@ -20,8 +22,7 @@ class RadioSelect(BaseComponent):
                required=True,
                desc: str = "",
                **_):
-        """单选框
-        参考：https://getbootstrap.com/docs/5.2/forms/checks-radios/#radios
+        """多选框
 
         Args:
             index (int): 问题序号
@@ -37,6 +38,7 @@ class RadioSelect(BaseComponent):
         Returns:
             str: 渲染好的问卷
         """
+        # ? 可以在此基础上添加其他功能，例如最少选择m项，最多选择n项等
 
     # ruff: noqa: F811
     render = BaseComponent.render  # 编写时删去此行
@@ -48,5 +50,7 @@ class RadioSelect(BaseComponent):
               datatype='str',
               validation=None):
         # TODO
-        # ? 验证一下是否用户所选都在问题提供的选项内
+        # ? 验证一下是否用户所选项都在问题提供的选项内
+        # ? 需要返回一个列表，里面是用户选中的所有项
+        # ? 提示：ImmutableMultiDict 有一个 getlist 方法
         return super().parse(name, formdata, qdata, datatype, validation)

@@ -29,7 +29,7 @@ def Database(path = "db.sqlite3"):
             value TEXT NOT NULL
         )""")
     ### 创建索引加快查找速度
-    db.execute("CREATE INDEX qid_id_formvalue on formvalue(qid, id);")
+    db.execute("CREATE INDEX IF NOT EXISTS qid_id_formvalue on formvalue(qid, id);")
 
     # 在退出with语句块时自动关闭连接
     return contextlib.closing(db)

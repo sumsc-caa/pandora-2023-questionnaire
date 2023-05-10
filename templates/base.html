@@ -21,13 +21,15 @@
 </head>
 
 <body>
-  <div class="container-fluid mt-3">
+  {% block page %}
+  <div class="container pt-5">
     <h1 style="text-align: center">{% block title %}{% endblock %}</h1>
     <hr>
     <div class="row align-items-center">
       {% block contents %}{% endblock %}
     </div>
   </div>
+  {% endblock %}
 </body>
 
 </html>

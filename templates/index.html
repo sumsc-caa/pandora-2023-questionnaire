@@ -5,8 +5,15 @@
 {% block header %}
 {% endblock %}
 
+<!--
+    要求：设计美观，使用bootstrap框架，展示系统内的所有问卷，需要有可点击的链接
+    测试时可以访问 /index 查看效果
+    注意：系统内问卷的数量是不固定的，需要使用jinja2模板的for循环
+ -->
+
+
 {% block title %}问卷列表{% endblock %}
 
 {% block contents %}
-    TODO
+{{questionnaires}}
 {% endblock %}

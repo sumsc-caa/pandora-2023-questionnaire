@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block caption %}出错啦{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+
+<!--
+    要求：设计美观，使用bootstrap框架，页面居中展示错误信息，并设置自动跳转（可参考demo项目）
+    测试时可以访问 /error 查看效果
+ -->
+
+{% block page %}
+TODO
+<pre>
+    message = {{errmsg}}
+    code = {{status_code}}
+    jump = {{jump}}
+</pre>
+{% endblock %}

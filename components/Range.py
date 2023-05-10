@@ -5,8 +5,10 @@ from .BaseComponent import ImmutableMultiDict
 
 
 @register_component
-class RadioSelect(BaseComponent):
-    """单选框"""
+class Range(BaseComponent):
+    """Slider
+    参考：https://getbootstrap.com/docs/5.2/forms/range/
+    """
     # TODO: 完善组件
 
     template = Template("")
@@ -15,28 +17,25 @@ class RadioSelect(BaseComponent):
                index: int,
                name: str,
                caption: str,
-               options: list[tuple[str, str]],
-               placeholder: str = "",
+               min=0,
+               max=10,
+               step=1,
                required=True,
                desc: str = "",
                **_):
-        """单选框
-        参考：https://getbootstrap.com/docs/5.2/forms/checks-radios/#radios
+        """开关
 
         Args:
             index (int): 问题序号
             name (str): 问题名称（存储时使用）
             caption (str): 问题题干
-            option (list[(key: str, value: str)]): 问题的选项
-                key (str): 该项的键（存入表单的值）
-                value (str): 该项的展示值（渲染时展示的值）
-            placeholder (str, optional): 输入提示. Defaults to "".
-            required (bool, optional): 是否必须. Defaults to True.
-            desc (str, optional): 字段描述. Defaults to "".
-
-        Returns:
-            str: 渲染好的问卷
+            min (int | float): 下限
+            max (int | float): 上限
+            step (int | float): 步长
+            required (bool): 是否必须
+            desc (str): 问题描述
         """
+        # ? 加分项：在组件右侧展示当前选中的值（需要JavaScript，加1分）
 
     # ruff: noqa: F811
     render = BaseComponent.render  # 编写时删去此行
@@ -45,8 +44,7 @@ class RadioSelect(BaseComponent):
               name: str,
               formdata: ImmutableMultiDict,
               qdata=None,
-              datatype='str',
+              datatype='float',
               validation=None):
         # TODO
-        # ? 验证一下是否用户所选都在问题提供的选项内
         return super().parse(name, formdata, qdata, datatype, validation)

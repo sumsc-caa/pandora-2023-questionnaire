@@ -5,9 +5,10 @@ from .BaseComponent import ImmutableMultiDict
 
 
 @register_component
-class RadioSelect(BaseComponent):
-    """单选框"""
-    # TODO: 完善组件
+class Textarea(BaseComponent):
+    """多行文本框
+    参考：https://getbootstrap.com/docs/5.2/forms/form-control/#example
+    """
 
     template = Template("")
 
@@ -15,28 +16,24 @@ class RadioSelect(BaseComponent):
                index: int,
                name: str,
                caption: str,
-               options: list[tuple[str, str]],
                placeholder: str = "",
+               default="",
                required=True,
                desc: str = "",
                **_):
-        """单选框
-        参考：https://getbootstrap.com/docs/5.2/forms/checks-radios/#radios
+        """多行文本框
 
         Args:
             index (int): 问题序号
-            name (str): 问题名称（存储时使用）
+            name (str): 问题的名称
             caption (str): 问题题干
-            option (list[(key: str, value: str)]): 问题的选项
-                key (str): 该项的键（存入表单的值）
-                value (str): 该项的展示值（渲染时展示的值）
             placeholder (str, optional): 输入提示. Defaults to "".
+            default (str, optional): 默认值
             required (bool, optional): 是否必须. Defaults to True.
             desc (str, optional): 字段描述. Defaults to "".
-
-        Returns:
-            str: 渲染好的问卷
         """
+        # ? 加分项：在文本框下显示实时字数统计（需要Javascript，加1分）
+        # ? 加分项：实时字数限制与相应提示（例：边框变红）（需要Javascript，加1分）
 
     # ruff: noqa: F811
     render = BaseComponent.render  # 编写时删去此行
@@ -47,6 +44,4 @@ class RadioSelect(BaseComponent):
               qdata=None,
               datatype='str',
               validation=None):
-        # TODO
-        # ? 验证一下是否用户所选都在问题提供的选项内
         return super().parse(name, formdata, qdata, datatype, validation)

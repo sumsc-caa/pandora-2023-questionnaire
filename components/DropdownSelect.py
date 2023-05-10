@@ -5,8 +5,10 @@ from .BaseComponent import ImmutableMultiDict
 
 
 @register_component
-class RadioSelect(BaseComponent):
-    """单选框"""
+class DropdownSelect(BaseComponent):
+    """下拉选择框
+    参考：https://getbootstrap.com/docs/5.2/forms/select/
+    """
     # TODO: 完善组件
 
     template = Template("")
@@ -20,9 +22,7 @@ class RadioSelect(BaseComponent):
                required=True,
                desc: str = "",
                **_):
-        """单选框
-        参考：https://getbootstrap.com/docs/5.2/forms/checks-radios/#radios
-
+        """
         Args:
             index (int): 问题序号
             name (str): 问题名称（存储时使用）
