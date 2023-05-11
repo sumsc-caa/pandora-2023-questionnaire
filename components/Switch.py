@@ -32,8 +32,35 @@ class Switch(BaseComponent):
             desc (str): 问题描述
         """
 
+        switchTemplate = Template("""
+        <div class="row">
+            <div class="col mb-3">
+                <label for="{{name}}">{{index}}. {{caption}}</label>
+                <div class="form-switch">
+                    <input class="form-check-input" type="checkbox"
+                      role="switch" id="switch{{index}}"
+                        {{isChecked}} {{isRequired}}>
+                    <label class="form-check-label" for="switch{{index}}">
+                    {{desc}}
+                    </label>
+                </div>
+            </div>
+        </div>"""
+        )
+
+        check = "checked" if default else ""
+        require = "reqeired" if required else ""
+
+        return switchTemplate.render(
+            index=index,
+            caption=caption,
+            isChecked = check,
+            isRequired = require,
+            desc = desc,
+            name=name
+            )
+
     # ruff: noqa: F811
-    render = BaseComponent.render  # 编写时删去此行
 
     def parse(self,
               name: str,
@@ -42,4 +69,6 @@ class Switch(BaseComponent):
               datatype='bool',
               validation=None):
         # TODO
-        return super().parse(name, formdata, qdata, datatype, validation)
+        dic = ImmutableMultiDict([("name",name), ("formdata",formdata),
+            ("qdata", qdata), ("datatype",datatype)])
+        return dic
