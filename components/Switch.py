@@ -9,9 +9,21 @@ class Switch(BaseComponent):
     """开关
     参考：https://getbootstrap.com/docs/5.2/forms/checks-radios/#switches
     """
-    # TODO: 完善组件
 
-    template = Template("")
+    template = Template("""
+        <div class="row">
+            <div class="col mb-3">
+                <label for="{{name}}">{{index}}. {{caption}}</label>
+                <div class="form-switch">
+                    <input name="{{name}}" class="form-check-input" type="checkbox"
+                      role="switch" id="switch{{index}}"
+                        {{isChecked}} {{isRequired}}>
+                    <label class="form-check-label" for="switch{{index}}">
+                    {{desc}}
+                    </label>
+                </div>
+            </div>
+        </div>""")
 
     def render(self,
                index: int,
@@ -32,26 +44,11 @@ class Switch(BaseComponent):
             desc (str): 问题描述
         """
 
-        switchTemplate = Template("""
-        <div class="row">
-            <div class="col mb-3">
-                <label for="{{name}}">{{index}}. {{caption}}</label>
-                <div class="form-switch">
-                    <input class="form-check-input" type="checkbox"
-                      role="switch" id="switch{{index}}"
-                        {{isChecked}} {{isRequired}}>
-                    <label class="form-check-label" for="switch{{index}}">
-                    {{desc}}
-                    </label>
-                </div>
-            </div>
-        </div>"""
-        )
 
         check = "checked" if default else ""
         require = "reqeired" if required else ""
 
-        return switchTemplate.render(
+        return self.template.render(
             index=index,
             caption=caption,
             isChecked = check,
@@ -68,7 +65,5 @@ class Switch(BaseComponent):
               qdata=None,
               datatype='bool',
               validation=None):
-        # TODO
-        dic = ImmutableMultiDict([("name",name), ("formdata",formdata),
-            ("qdata", qdata), ("datatype",datatype)])
-        return dic
+        data = formdata.get(name, None)
+        return bool(data)
