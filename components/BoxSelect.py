@@ -11,7 +11,10 @@ class BoxSelect(BaseComponent):
     """
     template = Template("""
         <div class="row">
-            <div class="mb-3">
+            <div class="mb-3 checkbox-group"
+                data-min="{{num_selections[0]}}"
+                data-max="{{num_selections[1]}}"
+            >
                 <label for="{{name}}">{{index}}. {{caption}}</label>
                 {% for option in options %}
                     <div class="form-check">
@@ -23,52 +26,15 @@ class BoxSelect(BaseComponent):
                         </label>
                     </div>
                 {% endfor %}
-                <div class="alert alert-danger alert-dismissible fade show"
-                    role="alert"id="checkbox-error" style="display:none; width:40%;">
-                    请选择至少 {{num_selections[0]}} 项，最多 {{num_selections[1]}} 项
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"
-                        aria-label="Close">
-                    </button>
+                <div class="alert alert-danger fade show py-1"
+                    role="alert" style="display:none; width:fit-content;">
+                    请选择至少 {{num_selections[0]}} 项，至多 {{num_selections[1]}} 项
                 </div>
                 {% if desc %}
                     <div id="{{name}}-help" class="form-text">{{desc}}</div>
                 {% endif %}
             </div>
         </div>
-        <script>
-            const checkboxes = document.querySelectorAll(
-                'input[type="checkbox"][name="{{name}}"]'
-            );
-            const checkboxError = document.getElementById('checkbox-error');
-            const minChecked = {{num_selections[0]}};
-            const maxChecked = {{num_selections[1]}};
-
-            checkboxes.forEach((checkbox) => {
-                checkbox.addEventListener('change', () => {
-                    const checkedCount = document.querySelectorAll(
-                        `[name="${checkbox.name}"]:checked`
-                    ).length;
-                    if (checkedCount < minChecked || checkedCount > maxChecked) {
-                        checkboxError.style.display = 'block';
-                    } else {
-                        checkboxError.style.display = 'none';
-                    }
-                });
-            });
-
-            function validateCheckbox() {
-                const numChecked = document.querySelectorAll(
-                    'input[type="checkbox"][name="{{name}}"]:checked'
-                ).length;
-                if (numChecked < minChecked || numChecked > maxChecked) {
-                    checkboxError.style.display = 'block';
-                    return false;
-                } else {
-                    checkboxError.style.display = 'none';
-                    return true;
-                }
-            }
-        </script>
     """)
 
     def render(self,
@@ -77,7 +43,7 @@ class BoxSelect(BaseComponent):
                caption: str,
                options: list[tuple[str, str]],
                desc: str = "",
-               num_selections: tuple[int, int] = (-1,-1),
+               num_selections: tuple[int, int] = (-1, -1),
                **_):
         """多选框
 
@@ -95,8 +61,8 @@ class BoxSelect(BaseComponent):
         Returns:
             str: 渲染好的问卷
         """
-        if num_selections == (-1,-1):
-            num_selections = (1,len(options))
+        if num_selections[0] < 0:
+            num_selections = (1, len(options))
         return self.template.render(
             index=index,
             name=name,

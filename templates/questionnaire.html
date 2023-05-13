@@ -3,6 +3,7 @@
 {% block caption %}{{qname}}{% endblock %}
 
 {% block header %}
+<script src="/static/js/form-validate.js"></script>
 {% endblock %}
 
 {% block title %}{{qname}}{% endblock %}
@@ -10,7 +11,7 @@
 {% block contents %}
 <div class="col-1"></div>
 <div class="col-10">
-    <form class="row" action="/submit/{{qid}}" method="post" onsubmit="return validateCheckbox();">
+    <form class="row" action="/submit/{{qid}}" method="post" onsubmit="return validateForm();">
         {{ queries | safe }}
         <input type="submit" class="btn btn-primary" value="Submit" />
     </form>
