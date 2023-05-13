@@ -16,12 +16,9 @@
     <i class="bi bi-check-circle min-vw-100 min-vh-100" style="font-size: 5rem; color: rgb(26, 118, 0);"></i>
     <h1 class="alert-heading font-weight-bold" style="color: rgb(26, 118, 0);">提交成功</h1>
     <hr>
-    <p style="font-size: 1.5rem;">您填写的问卷 {{qname}} {{qid}} 已经成功提交</p>
-    <br>
-    <small class="text-muted">{{message}}</small>
-    <br>
-    <h6 id="lab" class="text-muted"></h6>
-    <p></p>
+<div class="mb-4" style="font-size: 1.5rem;">您填写的问卷 {{qname}} (#{{qid}}) 已经成功提交</div>
+    <div class="text-muted">{{message}}</div>
+    <div class="text-muted mb-2" id="lab"></div>
 </div>
 
 <script>
