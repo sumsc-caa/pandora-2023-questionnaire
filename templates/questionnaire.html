@@ -10,7 +10,7 @@
 {% block contents %}
 <div class="col-1"></div>
 <div class="col-10">
-    <form class="row" action="/submit/{{qid}}" method="post">
+    <form class="row" action="/submit/{{qid}}" method="post" onsubmit="return validateCheckbox();">
         {{ queries | safe }}
         <input type="submit" class="btn btn-primary" value="Submit" />
     </form>
