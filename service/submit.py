@@ -2,6 +2,8 @@ from .base import blueprint, render_template, error_page
 from questionnaire import Questionnaire
 from components import FormValueError
 from flask import request
+from database import Database
+import json
 
 
 @blueprint.route("/submit/<int:qid>", methods=['POST'])
@@ -18,7 +20,13 @@ def submitQuestionnaire(qid: int):
 
     print(result)
 
-    # TODO: 数据入库，放在formvalue表内，result使用json编码后存储
+    # 数据入库，放在formvalue表内，result使用json编码后存储
+    with Database() as db:
+        result = db.execute(
+            "INSERT INTO formvalue (qid, value) VALUES (?, ?)",
+            (qid, json.dumps(result))
+        )
+        db.commit()
 
     return submitSuccess(q.qid, q.name)
 
