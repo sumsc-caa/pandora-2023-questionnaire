@@ -1,5 +1,5 @@
 from .base import blueprint, render_template
-
+from database import Database
 
 @blueprint.route("/")
 @blueprint.route("/index")
@@ -14,10 +14,17 @@ def index():
             desc (str): 问卷简介
             count (int): 该问卷当前的答卷数量
     """
-    # TODO: 获取系统里的所有问卷，返回上述信息
+    # 获取系统里的所有问卷，返回上述信息
+    with Database() as db:
+        result = db.execute('''
+            SELECT questionnaire.qid, name, desc,
+                COALESCE(COUNT(formvalue.id), 0) AS count
+            FROM questionnaire
+            LEFT JOIN formvalue ON questionnaire.qid = formvalue.qid
+            GROUP BY questionnaire.qid
+        ''').fetchall()
 
     return render_template(
         "index.html",
-        questionnaires=[(1, "name", "description", 10),
-                        (2, "测试问卷", "用来测试的问卷哦", 20)]
+        questionnaires=result
     )
