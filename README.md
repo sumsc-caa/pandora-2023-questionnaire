@@ -66,7 +66,7 @@ Found 1 error.
 ```
 注：在你编写完代码之后也可以在命令行执行`ruff check .`来运行代码检查
 
-如果你遇到这个也需要重新运行commit
+如果你遇到这个也需要重新添加文件并运行commit，因为这个操作修改了文件。
 ```raw
 Trim Trailing Whitespace..............................Failed
 - hook id: trailing-whitespace
