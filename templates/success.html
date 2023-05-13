@@ -12,11 +12,41 @@
 -->
 
 {% block page %}
-TODO
+<div class="shadow alert alert-success text-center mx-auto mt-4" style="width: 80%" role="alert">
+    <i class="bi bi-check-circle min-vw-100 min-vh-100" style="font-size: 5rem; color: rgb(26, 118, 0);"></i>
+    <h1 class="alert-heading font-weight-bold" style="color: rgb(26, 118, 0);">提交成功</h1>
+    <hr>
+<div class="mb-4" style="font-size: 1.5rem;">您填写的问卷 {{qname}} (#{{qid}}) 已经成功提交</div>
+    <div class="text-muted">{{message}}</div>
+    <div class="text-muted mb-2" id="lab"></div>
+</div>
+
+<script>
+    function countdown(){
+      var i = 5;
+      var timer = null;
+      const lab = document.getElementById("lab");
+
+      const change = () => {
+        i--;
+        lab.innerText = "将在 " + i + " 秒后跳转...";
+        if (i <= 0) {
+          window.clearInterval(timer);
+          window.location.href = "{{ jump if jump else '/' }}";
+        }
+      }
+      change();
+      timer = window.setInterval(change, 1000);
+    }
+
+    countdown();
+</script>
+<!--
 <pre>
     qid = {{qid}}
     qname = {{qname}}
     message = {{message}}
     jump = {{jump}}
 </pre>
+-->
 {% endblock %}
