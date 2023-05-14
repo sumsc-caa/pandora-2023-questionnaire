@@ -5,15 +5,23 @@
 {% block header %}
 {% endblock %}
 
-<!--
-    要求：设计美观，使用bootstrap框架，展示系统内的所有问卷，需要有可点击的链接
-    测试时可以访问 /index 查看效果
-    注意：系统内问卷的数量是不固定的，需要使用jinja2模板的for循环
- -->
+ {% block title %}
+    问卷列表
+    <br>
+    <i class="bi bi-clipboard" style="font-size: 3.5rem;"></i>
+ {% endblock %}
+ {% block contents %}
+ {% for id,name,desc,count in questionnaires %}
+    <div class="card shadow mx-auto mb-2 mh-2 text-center" style="width: 24rem;height: auto;">
+        <!-- <img src="..." class="card-img-top" alt="..."> -->
+        <div class="card-body">
+            <h4 class="card-title">{{ name }} (#{{ id }})</h5>
+            <p class="card-text">{{ desc }}</p>
+            <!-- <p class="text-muted align-text-bottom">已提交的答卷数目: {{ count }}</p> -->
+            <div class="mt-5 align-text-bottom text-muted">已提交的答卷数目: {{ count }}</div>
+            <a href="/questionnaire/{{ id }}" class="btn btn-primary stretched-link" style="width: 12rem;">开始填写</a>
+        </div>
+      </div>
+ {% endfor %}
 
-
-{% block title %}问卷列表{% endblock %}
-
-{% block contents %}
-{{questionnaires}}
 {% endblock %}
