@@ -4,7 +4,6 @@ from flask import render_template
 blueprint = Blueprint('api', __name__)
 
 
-@blueprint.route("/error")  # for tests only
 def error_page(errmsg: str = "测试错误", status_code: int = 400, jump: str = "/"):
     """渲染错误页
 

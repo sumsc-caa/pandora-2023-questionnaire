@@ -35,8 +35,3 @@ def submitSuccess(qid: int, qname: str,
                   message: str = "感谢您抽出时间参与我们的调查", jump="/"):
     return render_template(
         "success.html", qid=qid, qname=qname, message=message, jump=jump)
-
-
-@blueprint.route("/success")  # for tests only
-def _testsuccess():
-    return submitSuccess(1, "测试问卷")
