@@ -1,4 +1,4 @@
-from .BaseComponent import BaseComponent, Template, register_component
+from .BaseComponent import BaseComponent, Template, register_component, FormValueError
 from .BaseComponent import ImmutableMultiDict
 
 # 添加装饰器使程序能加载并注册这个组件
@@ -9,14 +9,31 @@ class RadioSelect(BaseComponent):
     """单选框"""
     # TODO: 完善组件
 
-    template = Template("")
+    template = Template("""
+        <div class="row">
+            <div class="mb-3 radio-group">
+                <label>{{index}}. {{caption}}</label>
+                {% for option in options %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="{{name}}"
+                            id="{{name}}_{{loop.index}}" value="{{option[0]}}" required>
+                        <label class="form-check-label" for="{{name}}_{{loop.index}}">
+                            {{option[1]}}
+                        </label>
+                    </div>
+                {% endfor %}
+                {% if desc %}
+                    <div id="{{name}}-help" class="form-text">{{desc}}</div>
+                {% endif %}
+            </div>
+        </div>
+    """)
 
     def render(self,
                index: int,
                name: str,
                caption: str,
                options: list[tuple[str, str]],
-               placeholder: str = "",
                required=True,
                desc: str = "",
                **_):
@@ -30,16 +47,20 @@ class RadioSelect(BaseComponent):
             option (list[(key: str, value: str)]): 问题的选项
                 key (str): 该项的键（存入表单的值）
                 value (str): 该项的展示值（渲染时展示的值）
-            placeholder (str, optional): 输入提示. Defaults to "".
             required (bool, optional): 是否必须. Defaults to True.
             desc (str, optional): 字段描述. Defaults to "".
 
         Returns:
             str: 渲染好的问卷
         """
-
-    # ruff: noqa: F811
-    render = BaseComponent.render  # 编写时删去此行
+        return self.template.render(
+            index=index,
+            name=name,
+            caption=caption,
+            options=options,
+            required='true' if required else 'false',
+            desc=desc,
+        )
 
     def parse(self,
               name: str,
@@ -47,6 +68,10 @@ class RadioSelect(BaseComponent):
               qdata=None,
               datatype='str',
               validation=None):
-        # TODO
-        # ? 验证一下是否用户所选都在问题提供的选项内
-        return super().parse(name, formdata, qdata, datatype, validation)
+        # 验证是否用户所选都在问题提供的选项内
+        selected = formdata.get(name)
+        options = [option[0] for option in qdata['options']]
+        if selected not in options:
+            raise FormValueError("Invalid option selected.")
+
+        return selected
